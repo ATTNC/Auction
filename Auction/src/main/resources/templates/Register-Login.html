@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyHTMLHomeWork</title>
+    <script src="https://kit.fontawesome.com/b676c3938a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/templates/app.css">
+    <title>Giris Yap</title>
+</head>
+<body>
+<nav>
+    <div class="heading">
+        <h4>Müzayede Online</h4>
+    </div>
+    <ul class="nav-links">
+        <li><a href="Register-Login.html" class="active"><i class="fa-regular fa-user fa-xl"></i></a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <div class="form-box">
+        <h1 id="title">Kayıt Ol</h1>
+        <form>
+            <div class="input-group" id="input-group">
+                <div class="input-field" id="nameField">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" placeholder="Adı-Soyadı">
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="mail" placeholder="E-Mail">
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Şifre">
+                </div>
+                <div class="input-field" id="passwordAgain">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Şifre Tekrar">
+                </div>
+            </div>
+            <div class="btn-field">
+                <button type="button" id="signUp">Kayıt Ol</button>
+                <button type="button" id="signIn" class="disable">Giriş Yap</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+let signUp = document.getElementById("signUp");
+let signIn = document.getElementById("signIn");
+let nameField = document.getElementById("nameField");
+let title = document.getElementById("title");
+let passwordAgain = document.getElementById("passwordAgain");
+
+signIn.onclick = function() {
+    nameField.style.maxHeight = "0";
+    passwordAgain.style.maxHeight = "0";
+    title.innerHTML = "Giriş Yap";
+    signUp.classList.add("disable");
+    signIn.classList.remove("disable");
+}
+
+signUp.onclick = function() {
+    nameField.style.maxHeight = "65px";
+    passwordAgain.style.maxHeight = "65px";
+    title.innerHTML = "Kayıt Ol";
+    signIn.classList.add("disable");
+    signUp.classList.remove("disable");
+}
+
+
+
+
+
+</script>
+</body>
+</html>
