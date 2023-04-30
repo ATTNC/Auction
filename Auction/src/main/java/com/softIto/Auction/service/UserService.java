@@ -50,6 +50,10 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
 
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     public List<User> getAll() {
         return userRepository.findAll();
     }

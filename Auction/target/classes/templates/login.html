@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Müzayede Online Giriş</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../templates/app.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://kit.fontawesome.com/b676c3938a.js" crossorigin="anonymous"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .body-text {
+        display: flex;
+        font-family: 'Montserrat', sans-serif;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20%;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        min-height: 5vh;
+        background-color: #3c00a0;
+    }
+
+    .nav-links {
+        display: flex;
+        justify-content: space-around;
+        height: 5vh;
+        width: fit-content;
+
+    }
+
+    .nav-links :active {
+        background-color: rgb(107, 15, 107);
+    }
+
+    .nav-links li {
+        display: flex;
+        list-style: none;
+        align-items: center;
+        height: 5vh;
+
+    }
+
+    .heading {
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-size: 22px;
+    }
+
+    .nav-links a {
+        display: flex;
+        align-items: center;
+        color: white;
+        text-decoration: none;
+        letter-spacing: 3px;
+        font-weight: bold;
+        font-size: 16px;
+        padding: 16px 18px;
+        height: 5vh;
+    }
+
+    .nav-links a.active {
+        display: flex;
+        background-color: rgb(107, 15, 107);
+        height: 5vh;
+    }
+
+    .container {
+        width: 100%;
+        height: 95vh;
+        background-image: linear-gradient(rgba(0, 0, 50, 0.8), rgba(0, 0, 50, 0.8));
+    }
+
+    .form-box {
+        width: 90%;
+        max-width: 450px;
+        max-height: 600px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 50px 60px 70px;
+        text-align: center;
+    }
+
+    .form-box h1 {
+        font-size: 30px;
+        margin-bottom: 60px;
+        color: #3c00a0;
+        position: relative;
+    }
+
+    .form-box h1::after {
+        content: '';
+        width: 30px;
+        height: 4px;
+        border-radius: 3px;
+        background: #3c00a0;
+        position: absolute;
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .input-field {
+        background: #eaeaea;
+        margin: 15px 0;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        max-height: 65px;
+        transition: max-height 0.5s;
+        overflow: hidden;
+    }
+
+    input {
+        width: 300px;
+        background: transparent;
+        border: 0;
+        outline: 0;
+        padding: 18px 15px;
+    }
+
+    .input-field i {
+
+        margin-left: 15px;
+        color: #999;
+    }
+
+    form p {
+        text-align: left;
+        font-size: 13px;
+    }
+
+    form p a {
+        text-decoration: none;
+        color: #3c00a0;
+    }
+
+    .btn-field {
+        justify-content: center;
+    }
+
+    .btn-field button {
+        background: #3c00a0;
+        color: #fff;
+        height: 40px;
+        width: 100px;
+        border-radius: 20px;
+        border: 0;
+        outline: 0;
+        cursor: pointer;
+        transition: background 1s;
+    }
+</style>
+<body>
+<nav>
+    <div class="heading">
+        <h4>Müzayede Online</h4>
+    </div>
+    <ul class="nav-links">
+        <li><a href="login.html" class="active"><i class="fa-regular fa-user fa-xl"></i></a></li>
+    </ul>
+</nav>
+<div class="container">
+    <div class="form-box" id="formBox">
+        <h1 id="title">Giriş Yap</h1>
+        <form id="registerForm" class="registerForm">
+            <div class="input-group" id="input">
+                <div class="input-field" id="email">
+                    <i class="fa-solid fa-envelope"></i>
+                    <label for="email">
+                        <input type="email" placeholder="E-Posta">
+                    </label>
+                </div>
+                <div class="input-field" id="password">
+                    <i class="fa-solid fa-lock"></i>
+                    <label for="password">
+                        <input type="password" placeholder="Şifre">
+                    </label>
+                </div>
+            </div>
+            <div class="btn-field" style="padding-bottom: 0px">
+                <button type="submit" class="btn btn-primary">Giriş Yap</button>
+            </div>
+            <small>Üye değil misin?</small><br>
+            <a href="http://localhost:8080/user/register">Kayıt Ol</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#registerForm').submit(function (event) {
+            event.preventDefault();
+            const email = $('#email input').val();
+            const password = $('#password input').val();
+
+            const user = {
+                "email": email.toString(),
+                "password": password.toString()
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "http://localhost:8080/user/login",
+                data: JSON.stringify(user),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                error: function (xhr, textStatus, errorThrown) {
+                    if (xhr.status == 401) {
+                        alert('Kullanıcı adı veya şifre yanlış!');
+                    } else if (xhr.status == 404) {
+                        alert('Bu maile sahip kullanıcı bulunmamakta.');
+                    } else if (xhr.status == 500) {
+
+                    } else {
+                        alert('Bir hata oluştu: ' + errorThrown);
+                    }
+                },
+                success: function () {
+                    window.location.href = "http://localhost:8080/homepage"; // route
+                }
+
+            })
+        })
+    });
+</script>
+</body>
+</html>
