@@ -22,13 +22,15 @@ public class Auction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double currentBid;
-    private double currentPrice;
+    private double startPrice;
+    private double instantlyBuy;
     private String creatorName;
+    private String highestBidder;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties("auction")
     private User user;
-    @OneToOne(mappedBy = "auction", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
     @JsonIgnoreProperties("auction")
     private Item item;
@@ -53,12 +55,20 @@ public class Auction {
         this.currentBid = currentBid;
     }
 
-    public double getCurrentPrice() {
-        return currentPrice;
+    public double getStartPrice() {
+        return startPrice;
     }
 
-    public void setCurrentPrice(double currentPrice) {
-        this.currentPrice = currentPrice;
+    public void setStartPrice(double startPrice) {
+        this.startPrice = startPrice;
+    }
+
+    public double getInstantlyBuy() {
+        return instantlyBuy;
+    }
+
+    public void setInstantlyBuy(double instantlyBuy) {
+        this.instantlyBuy = instantlyBuy;
     }
 
     public String getCreatorName() {
@@ -87,14 +97,21 @@ public class Auction {
         this.item = item;
     }
 
-    @JsonIgnore
+
     public List<Bid> getBids() {
-        Hibernate.initialize(bids);
         return bids;
     }
 
     public void setBids(List<Bid> bids) {
         this.bids = bids;
+    }
+
+    public String getHighestBidder() {
+        return highestBidder;
+    }
+
+    public void setHighestBidder(String highestBidder) {
+        this.highestBidder = highestBidder;
     }
 
     public boolean isStatus() {

@@ -17,8 +17,14 @@ public class BidController {
         this.bidService = bidService;
     }
 
-    @PostMapping("/create/{auctionId}")
-    public Bid createBid(@PathVariable Long auctionId, @RequestBody CreateBidRequest request) {
-        return bidService.createBid(auctionId, request);
+    @PostMapping("/create/{auctionId}/{itemId}")
+    public Bid createBid(@PathVariable Long auctionId,@PathVariable Long itemId , @RequestBody CreateBidRequest request) {
+        return bidService.createBid(auctionId,itemId, request);
+    }
+
+    @GetMapping("/get/{id}")
+    public Bid getBid(@PathVariable Long id) {
+        return bidService.getById(id);
+
     }
 }

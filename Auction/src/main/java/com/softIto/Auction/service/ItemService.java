@@ -1,8 +1,10 @@
 package com.softIto.Auction.service;
 
+import com.softIto.Auction.model.Auction;
 import com.softIto.Auction.model.Item;
 import com.softIto.Auction.repository.ItemRepository;
 import com.softIto.Auction.util.FileUploadUtil;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -36,6 +38,9 @@ public class ItemService {
     }
 
     */
-
+   public Item getById(Long id) {
+       return itemRepository.findById(id)
+               .orElseThrow(() -> new EntityNotFoundException("Auction not found with id: " + id));
+   }
 
 }
