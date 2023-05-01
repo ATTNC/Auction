@@ -1,12 +1,18 @@
 package com.softIto.Auction.service;
 
+import com.softIto.Auction.dto.ItemDto;
+import com.softIto.Auction.model.Auction;
 import com.softIto.Auction.model.Item;
 import com.softIto.Auction.repository.ItemRepository;
 import com.softIto.Auction.util.FileUploadUtil;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ItemService {
@@ -17,25 +23,40 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-   /*
-    public Item saveItem(MultipartFile itemImage, Item item) throws Exception {
+    /*
+     public Item saveItem(MultipartFile itemImage, Item item) throws Exception {
 
-        item.setItemImage(itemImage);
+         item.setItemImage(itemImage);
 
-        String fileName = StringUtils.cleanPath(itemImage.getOriginalFilename());
-        item.setImageUrl("/images/" + fileName);
+         String fileName = StringUtils.cleanPath(itemImage.getOriginalFilename());
+         item.setImageUrl("/images/" + fileName);
 
-        Item savedItem = itemRepository.save(item);
+         Item savedItem = itemRepository.save(item);
 
-        String uploadDir = "src/main/resources/static/images/" + savedItem.getId();
+         String uploadDir = "src/main/resources/static/images/" + savedItem.getId();
 
-        FileUploadUtil.saveFile(uploadDir, fileName, itemImage);
+         FileUploadUtil.saveFile(uploadDir, fileName, itemImage);
 
-        return savedItem;
+         return savedItem;
 
+     }
+
+     */
+    public Item getById(Long id) {
+        return itemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Auction not found with id: " + id));
     }
 
-    */
+    public List<ItemDto> getAll() {
+        List<Item> items = itemRepository.findAll();
+        List<ItemDto> itemDtos = new ArrayList<>();
 
+        for (Item item : items) {
+            ItemDto itemDto = new ItemDto(item.getName(), item.getImage());
+            itemDtos.add(itemDto);
+        }
+
+        return itemDtos;
+    }
 
 }

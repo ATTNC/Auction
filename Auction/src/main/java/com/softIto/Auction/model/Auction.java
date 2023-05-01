@@ -1,5 +1,6 @@
 package com.softIto.Auction.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,13 +24,20 @@ public class Auction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double currentBid;
-    private double currentPrice;
+    private double startPrice;
+    private double instantlyBuy;
     private String creatorName;
+    private String highestBidder;
+    private String itemByPurchased;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime startDate;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime endDate;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties("auction")
     private User user;
-    @OneToOne(mappedBy = "auction", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
     @JsonIgnoreProperties("auction")
     private Item item;
@@ -53,12 +62,20 @@ public class Auction {
         this.currentBid = currentBid;
     }
 
-    public double getCurrentPrice() {
-        return currentPrice;
+    public double getStartPrice() {
+        return startPrice;
     }
 
-    public void setCurrentPrice(double currentPrice) {
-        this.currentPrice = currentPrice;
+    public void setStartPrice(double startPrice) {
+        this.startPrice = startPrice;
+    }
+
+    public double getInstantlyBuy() {
+        return instantlyBuy;
+    }
+
+    public void setInstantlyBuy(double instantlyBuy) {
+        this.instantlyBuy = instantlyBuy;
     }
 
     public String getCreatorName() {
@@ -87,14 +104,21 @@ public class Auction {
         this.item = item;
     }
 
-    @JsonIgnore
+
     public List<Bid> getBids() {
-        Hibernate.initialize(bids);
         return bids;
     }
 
     public void setBids(List<Bid> bids) {
         this.bids = bids;
+    }
+
+    public String getHighestBidder() {
+        return highestBidder;
+    }
+
+    public void setHighestBidder(String highestBidder) {
+        this.highestBidder = highestBidder;
     }
 
     public boolean isStatus() {
@@ -103,5 +127,33 @@ public class Auction {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getItemByPurchased() {
+        return itemByPurchased;
+    }
+
+    public void setItemByPurchased(String itemByPurchased) {
+        this.itemByPurchased = itemByPurchased;
+    }
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm", shape = JsonFormat.Shape.STRING)
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm", shape = JsonFormat.Shape.STRING)
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm", shape = JsonFormat.Shape.STRING)
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm", shape = JsonFormat.Shape.STRING)
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 }
