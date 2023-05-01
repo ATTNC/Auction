@@ -9,6 +9,7 @@ import com.softIto.Auction.repository.UserRepository;
 import com.softIto.Auction.util.FileUploadUtil;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +32,7 @@ public class UserService {
     }
 
     public User saveUser(User user) {
-
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -44,6 +45,7 @@ public class UserService {
             return null;
         }
     }
+
 
     public User getById(Long id) {
         return userRepository.findById(id)

@@ -222,14 +222,14 @@
                 contentType: "application/json",
                 url: "http://localhost:8080/user/login",
                 data: JSON.stringify(user),
-                dataType: 'json',
+                dataType: 'html',
                 cache: false,
                 timeout: 600000,
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status == 401) {
                         alert('Kullanıcı adı veya şifre yanlış!');
                     } else if (xhr.status == 500) {
-
+                        alert('Kullanıcı adı veya şifre yanlış!');
                     } else {
                         alert('Bir hata oluştu: ' + errorThrown);
                     }

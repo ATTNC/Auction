@@ -5,9 +5,11 @@ import com.softIto.Auction.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Objects;
 
@@ -46,13 +48,14 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@RequestBody User user,
-                        Model model) {
+                        Model model, RedirectAttributes redirectAttributes) {
         User correctUser = userService.getByEmail(user.getEmail());
-        if (Objects.equals(user.getPassword(), correctUser.getPassword())) {
+        if (new BCryptPasswordEncoder().matches(user.getPassword(), correctUser.getPassword())) {
+            redirectAttributes.addFlashAttribute("message", "Login successful");
             return "redirect:/homepage";
         } else {
             model.addAttribute("errorMessage", "Invalid email or password");
-            return "/login";
+            return "login";
         }
     }
 
