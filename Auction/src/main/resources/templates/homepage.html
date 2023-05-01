@@ -159,10 +159,9 @@
 <body>
 <nav>
     <div class="heading">
-        <h4><a><i class="fa-solid fa-bars"></i> </a>Müzayede Online</h4>
+        <h4><a><i class="fa-solid fa-bars" style="padding: 10px"></i></a>Müzayede Online</h4>
     </div>
     <ul class="nav-links">
-        <li><a href="homepage.html">Aktif İlanlar</a></li>
         <li><a href="homepage.html">İlan Ver</a></li>
         <li><a href="homepage.html" class="active"><i class="fa-solid fa-house fa-xl"></i></a></li>
         <li><a href="login.html"><i class="fa-solid fa-user fa-xl"></i></a></li>
@@ -186,62 +185,73 @@
     const toggleSidebar = () => {
         document.querySelector('.sidebar').classList.toggle('active');
     }
+
     document.querySelector('nav a i.fa-bars').addEventListener('click', toggleSidebar);
-    const products = [
-        {
-            name: 'Çok iyi ekran kartı',
-            imageUrl: 'https://cdn.cimri.io/image/1200x1200/ekrankartlarfiyatlar_709097782.jpg'
-        },
-        {name: 'Aile arabası', imageUrl: 'https://cdn.motor1.com/images/mgl/qjRXZ/s1/audi-r8-v10-decennium.jpg'},
-        {
-            name: '7 kere dünya şampiyonu olan şapka',
-            imageUrl: 'https://i.ebayimg.com/images/g/FbYAAOSwWrdh~482/s-l500.jpg'
-        },
-        {
-            name: 'Satılık göl',
-            imageUrl: 'https://i4.hurimg.com/i/hurriyet/75/770x0/5b8e6dac7152d827603dd438.jpg'
-        },
-        {
-            name: 'Az kullanılmış Afgan köle',
-            imageUrl: 'https://zeka-oyunlari.s3-eu-west-1.amazonaws.com/s88hac2fdf444b1f0a29f097683c1ad4d4ff2041ff17.?1486040575'
-        },
-        {
-            name: '7 kere dünya şampiyonu olan şapka',
-            imageUrl: 'https://i4.hurimg.com/i/hurriyet/75/770x0/5b8e6dac7152d827603dd438.jpg'
-        },
-        {
-            name: '7 kere dünya şampiyonu olan şapka',
-            imageUrl: 'https://i4.hurimg.com/i/hurriyet/75/770x0/5b8e6dac7152d827603dd438.jpg'
-        },
-        {
-            name: '7 kere dünya şampiyonu olan şapka',
-            imageUrl: 'https://i4.hurimg.com/i/hurriyet/75/770x0/5b8e6dac7152d827603dd438.jpg'
-        },
 
-    ];
-
-    const productsContainer = document.querySelector('#products-container');
-
-    products.forEach(product => {
-        // Ürün kutusunu oluşturun
-        const productBox = document.createElement('li');
-        productBox.classList.add('product-box');
-
-        // Ürün resmini oluşturun
-        const image = document.createElement('img');
-        image.src = product.imageUrl;
-        image.style.maxHeight = '25vh';
-        image.style.maxWidth = '25vh';
-        productBox.appendChild(image);
-
-        // Ürün adını oluşturun
-        const name = document.createElement('h3');
-        name.textContent = product.name;
-        productBox.appendChild(name);
-
-        // Ürün kutusunu ana ürünler konteynırına ekleyin
-        productsContainer.appendChild(productBox);
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.sidebar') && !event.target.closest('nav a i.fa-bars')) {
+            document.querySelector('.sidebar').classList.remove('active');
+        }
     });
+
+
+    const productList = fetch('/item/getAll')
+        .then(response => response.json())
+        .then(data => {
+            const products = data.list;
+
+            const productsContainer = document.querySelector('#products-container');
+
+            products.forEach(product => {
+
+                const productBox = document.createElement('li');
+                productBox.classList.add('product-box');
+
+
+                const image = document.createElement('img');
+                image.src = product.imageUrl;
+                image.style.maxHeight = '25vh';
+                image.style.maxWidth = '25vh';
+                productBox.appendChild(image);
+
+
+                const name = document.createElement('h3');
+                name.textContent = product.name;
+                productBox.appendChild(name);
+
+
+                productsContainer.appendChild(productBox);
+            });
+        })
+        .catch(error => console.error(error));
+
+    const products = productList.map(item => ({
+        name: item.name,
+        image: item.image
+    }));
+
+    /*    const productsContainer = document.querySelector('#products-container');
+
+        products.forEach(product => {
+            // Ürün kutusunu oluşturun
+            const productBox = document.createElement('li');
+            productBox.classList.add('product-box');
+
+            // Ürün resmini oluşturun
+            const image = document.createElement('img');
+            image.src = product.imageUrl;
+            image.style.maxHeight = '25vh';
+            image.style.maxWidth = '25vh';
+            productBox.appendChild(image);
+
+            // Ürün adını oluşturun
+            const name = document.createElement('h3');
+            name.textContent = product.name;
+            productBox.appendChild(name);
+
+            // Ürün kutusunu ana ürünler konteynırına ekleyin
+            productsContainer.appendChild(productBox);
+        });*/
 
 </script>
 </html>
