@@ -32,6 +32,17 @@ public class AuctionController {
         return auctionService.createAuction(userId, request);
     }
 
+    @PutMapping("/update/{id}")
+    public Auction updateAuction(@PathVariable Long id, @RequestBody Auction auction) {
+        return auctionService.updateAuction(id, auction);
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteAuction(@PathVariable Long id) {
+        auctionService.deleteAuction(id);
+        return "Auction deleted";
+    }
 
     @GetMapping("/get/{id}")
     public Auction getAuction(@PathVariable Long id) {

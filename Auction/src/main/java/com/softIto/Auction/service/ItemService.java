@@ -1,15 +1,11 @@
 package com.softIto.Auction.service;
 
 import com.softIto.Auction.dto.ItemDto;
-import com.softIto.Auction.model.Auction;
 import com.softIto.Auction.model.Item;
 import com.softIto.Auction.repository.ItemRepository;
-import com.softIto.Auction.util.FileUploadUtil;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +37,13 @@ public class ItemService {
 
      }
 
+
      */
+
+    public void addItem(Item item) {
+        itemRepository.save(item);
+    }
+
     public Item getById(Long id) {
         return itemRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Auction not found with id: " + id));
@@ -59,4 +61,18 @@ public class ItemService {
         return itemDtos;
     }
 
+    public void deleteItem(Long id) {
+        itemRepository.deleteById(id);
+    }
+
+    public Item updateItem(Long id, Item updatedItem) {
+
+        Item item = getById(id);
+        item.setPrice(updatedItem.getPrice());
+        item.setName(updatedItem.getName());
+        item.setDescription(updatedItem.getDescription());
+        item.setImage(updatedItem.getImage());
+
+        return itemRepository.save(item);
+    }
 }

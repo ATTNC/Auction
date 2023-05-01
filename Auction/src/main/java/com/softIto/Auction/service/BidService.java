@@ -131,10 +131,19 @@ public class BidService {
 
     }
 
+
     public Bid getById(Long id) {
         return bidRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Bid not found with id: " + id));
     }
 
+
+    public void deleteById(Long id) {
+        bidRepository.deleteById(id);
+    }
+
+    public List<Bid> getAll() {
+        return bidRepository.findAll();
+    }
 
 }
