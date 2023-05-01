@@ -1,48 +1,47 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <style>
-    .products-container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(5, 1fr);
-      gap: 20px;
-    }
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 20px;
+        }
 
-    .product-box:first-child {
-      grid-column: 1;
-      grid-row: 1;
-    }
+        .product-box:first-child {
+            grid-column: 1;
+            grid-row: 1;
+        }
 
-    .products-container img {
-      max-width: 200px;
-      max-height: 150px;
-    }
+        .products-container img {
+            max-width: 200px;
+            max-height: 150px;
+        }
 
-    .product-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      max-width: 200px;
-    }
+        .product-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 200px;
+        }
 
-    .product-box img {
-      max-width: 100%;
-      height: auto;
-      margin-bottom: 10px;
-    }
+        .product-box img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
 
-    .product-box h3 {
-      font-size: 18px;
-      font-weight: 500;
-      line-height: 22px;
-      word-wrap: break-word;
-    }
+        .product-box h3 {
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 22px;
+            word-wrap: break-word;
+        }
 
-  </style>
+    </style>
 </head>
 <body>
 <div id="products-container"></div>
@@ -50,40 +49,41 @@
 </body>
 
 <script>
-  const products = [
-    {
-      name: 'Çok iyi ekran kartı',
-      imageUrl: 'https://cdn.cimri.io/image/1200x1200/ekrankartlarfiyatlar_709097782.jpg'
-    },
-    {name: 'Aile arabası', imageUrl: 'https://cdn.motor1.com/images/mgl/qjRXZ/s1/audi-r8-v10-decennium.jpg'},
-    {
-      name: '7 kere dünya şampiyonu olan şapka',
-      imageUrl: 'https://i.ebayimg.com/images/g/FbYAAOSwWrdh~482/s-l500.jpg'
-    },
-  ];
+    const products = [
+        {
+            name: 'Çok iyi ekran kartı',
+            imageUrl: 'https://cdn.cimri.io/image/1200x1200/ekrankartlarfiyatlar_709097782.jpg'
+        },
+        {name: 'Aile arabası', imageUrl: 'https://cdn.motor1.com/images/mgl/qjRXZ/s1/audi-r8-v10-decennium.jpg'},
+        {
+            name: '7 kere dünya şampiyonu olan şapka',
+            imageUrl: 'https://i.ebayimg.com/images/g/FbYAAOSwWrdh~482/s-l500.jpg'
+        },
+    ];
 
-  const productsContainer = document.querySelector('#products-container');
+    const productsContainer = document.querySelector('#products-container');
 
-  products.forEach(product => {
-    // Ürün kutusunu oluşturun
-    const productBox = document.createElement('div');
-    productBox.classList.add('product-box');
+    products.forEach(product => {
+        // Ürün kutusunu oluşturun
+        const productBox = document.createElement('div');
+        productBox.classList.add('product-box');
 
-    // Ürün resmini oluşturun
-    const image = document.createElement('img');
-    image.src = product.imageUrl;
-    image.style.maxHeight = '25vh';
-    image.style.maxWidth = '25vh';
-    productBox.appendChild(image);
+        // Ürün resmini oluşturun
+        const image = document.createElement('img');
+        image.src = product.imageUrl;
+        image.style.maxHeight = '25vh';
+        image.style.maxWidth = '25vh';
+        productBox.appendChild(image);
 
-    // Ürün adını oluşturun
-    const name = document.createElement('h3');
-    name.textContent = product.name;
-    productBox.appendChild(name);
+        // Ürün adını oluşturun
+        const name = document.createElement('h3');
+        name.textContent = product.name;
+        productBox.appendChild(name);
 
-    // Ürün kutusunu ana ürünler konteynırına ekleyin
-    productsContainer.appendChild(productBox);
-  });
+        // Ürün kutusunu ana ürünler konteynırına ekleyin
+        productsContainer.appendChild(productBox);
+    });
+
 
 </script>
 </html>
