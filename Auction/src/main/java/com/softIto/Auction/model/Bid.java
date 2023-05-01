@@ -1,5 +1,6 @@
 package com.softIto.Auction.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -27,6 +30,8 @@ public class Bid {
     @JsonIgnoreProperties("bids")
     private Auction auction;
     private double bid;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm",shape = JsonFormat.Shape.STRING)
+    LocalDateTime bidTime;
 
     public Long getId() {
         return id;
@@ -69,5 +74,13 @@ public class Bid {
 
     public void setBid(double bid) {
         this.bid = bid;
+    }
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm",shape = JsonFormat.Shape.STRING)
+    public LocalDateTime getBidTime() {
+        return bidTime;
+    }
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm",shape = JsonFormat.Shape.STRING)
+    public void setBidTime(LocalDateTime bidTime) {
+        this.bidTime = bidTime;
     }
 }

@@ -6,12 +6,16 @@ import com.softIto.Auction.repository.CategoryRepository;
 import com.softIto.Auction.repository.ItemRepository;
 import com.softIto.Auction.repository.UserRepository;
 import com.softIto.Auction.request.CreateAuctionRequest;
+import com.softIto.Auction.response.AuctionSoldResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -39,7 +43,7 @@ public class AuctionService {
 
 
     public Auction createAuction(Long userId, CreateAuctionRequest request) {
-
+        AuctionSoldResponse response = new AuctionSoldResponse();
         // Get the User from the database using the userId
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -60,10 +64,30 @@ public class AuctionService {
         auction.setCreatorName(user.getFirstName() + " " + user.getLastName());
         auction.setStartPrice(request.getItemPrice());
         auction.setInstantlyBuy(request.getInstantlyBuy());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        String formattedDate = now.format(formatter);
+        LocalDateTime localDateTime = LocalDateTime.parse(formattedDate, formatter);
+
+        if (request.getStartDate().isBefore(localDateTime)) {
+            throw new DateTimeException("Please select a valid time");
+        }
+
+        if (localDateTime == request.getEndDate() && auction.getHighestBidder() != null) {
+            auction.setItemByPurchased(auction.getHighestBidder());
+            auction.setStatus(false);
+            response.setMessage("The auction period is over and the winner is " + auction.getItemByPurchased());
+
+        }
+
+        auction.setStartDate(request.getStartDate());
+        auction.setEndDate(request.getEndDate());
+
+
         auction.setUser(user);
         auction.setItem(item);
         auction.setStatus(true);
-
 
         item.setAuction(auction);
         itemRepository.save(item);

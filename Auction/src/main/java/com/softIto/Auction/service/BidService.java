@@ -9,10 +9,14 @@ import com.softIto.Auction.repository.BidRepository;
 import com.softIto.Auction.repository.ItemRepository;
 import com.softIto.Auction.repository.UserRepository;
 import com.softIto.Auction.request.CreateBidRequest;
+import com.softIto.Auction.response.AuctionSoldResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -41,6 +45,8 @@ public class BidService {
     }
 
     public Bid createBid(Long auctionId, Long itemId, CreateBidRequest request) {
+
+        AuctionSoldResponse response = new AuctionSoldResponse();
 
         User user = userRepository.findByEmail(request.getEmail());
         if (user == null) {
@@ -83,17 +89,39 @@ public class BidService {
 
         }
 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        String formattedDate = now.format(formatter);
+        LocalDateTime localDateTime = LocalDateTime.parse(formattedDate, formatter);
+
+
+        request.setBidDate(localDateTime);
+
+        if (request.getBidDate().isAfter(auction.getEndDate())) {
+            auction.setStatus(false);
+            throw new DateTimeException("Auction time expired");
+
+        }
+
         Bid bid = new Bid();
         bid.setUser(user);
         bid.setItem(item);
         bid.setAuction(auction);
         bid.setBid(request.getBid());
+        bid.setBidTime(localDateTime);
 
 
         auction.setCurrentBid(request.getBid());
         auction.setHighestBidder(user.getEmail());
         user.setEmail(request.getEmail());
 
+        if (request.getBid() == auction.getInstantlyBuy()) {
+            auction.setStatus(false);
+            auction.setItemByPurchased(auction.getHighestBidder());
+            response.setMessage("Congratulations! You can buy the item");
+
+        }
 
         auctionRepository.save(auction);
         bidRepository.save(bid);
