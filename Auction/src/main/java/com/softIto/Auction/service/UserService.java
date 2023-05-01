@@ -1,18 +1,13 @@
 package com.softIto.Auction.service;
 
-import com.softIto.Auction.model.Auction;
-import com.softIto.Auction.model.Item;
 import com.softIto.Auction.model.User;
 import com.softIto.Auction.repository.AuctionRepository;
 import com.softIto.Auction.repository.ItemRepository;
 import com.softIto.Auction.repository.UserRepository;
-import com.softIto.Auction.util.FileUploadUtil;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -46,7 +41,6 @@ public class UserService {
         }
     }
 
-
     public User getById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
@@ -60,8 +54,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void update(User entity) {
-        userRepository.save(entity);
+    public User update(Long id, User updatedUser) {
+        User user = getById(id);
+
+        user.setFirstName(updatedUser.getFirstName());
+        user.setLastName(updatedUser.getLastName());
+        user.setEmail(updatedUser.getEmail());
+        user.setBalance(updatedUser.getBalance());
+        user.setPassword(new BCryptPasswordEncoder().encode(updatedUser.getPassword()));
+        return userRepository.save(user);
     }
 
     public void deleteById(Long id) {

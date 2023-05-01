@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -56,7 +57,7 @@ public class PaymentService {
         if (bid == null) {
             throw new EntityNotFoundException("Bid not found.");
         }
-        if(!Objects.equals(auction.getHighestBidder(), user.getEmail())){
+        if (!Objects.equals(auction.getHighestBidder(), user.getEmail())) {
 
             throw new IllegalStateException("You are not the winner of the auction");
         }
@@ -68,7 +69,7 @@ public class PaymentService {
         payment.setPaymentMethod(paymentRequest.getPaymentMethod());
         payment.setAmount(paymentRequest.getAmount());
 
-        if(paymentRequest.getAmount()<auction.getCurrentBid()){
+        if (paymentRequest.getAmount() < auction.getCurrentBid()) {
             throw new IllegalStateException("Amount is cannot be less than purchase price");
         }
 
@@ -91,5 +92,25 @@ public class PaymentService {
 
 
         return paymentRepository.save(payment);
+    }
+
+    public void deletePayment(Long id) {
+        paymentRepository.deleteById(id);
+    }
+
+    public List<Payment> getAll() {
+        return paymentRepository.findAll();
+    }
+
+    public Payment getById(Long id) {
+        return paymentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Payment not found with id: " + id));
+    }
+
+    public Payment updatePayment(Long id, Payment updatedPayment) {
+        Payment payment = getById(id);
+        payment.setAmount(updatedPayment.getAmount());
+        payment.setPaymentMethod(updatedPayment.getPaymentMethod());
+       return paymentRepository.save(payment);
     }
 }

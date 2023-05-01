@@ -115,5 +115,20 @@ public class AuctionService {
         return auctionRepository.findAll();
     }
 
+    public void deleteAuction(Long id) {
+        auctionRepository.deleteById(id);
+    }
+
+    public Auction updateAuction(Long id, Auction updatedAuction) {
+        Auction auction = getById(id);
+        auction.setStartDate(updatedAuction.getStartDate());
+        auction.setEndDate(updatedAuction.getEndDate());
+        auction.setStartPrice(updatedAuction.getStartPrice());
+        auction.setInstantlyBuy(updatedAuction.getInstantlyBuy());
+
+
+        return auctionRepository.save(auction);
+    }
+
 
 }

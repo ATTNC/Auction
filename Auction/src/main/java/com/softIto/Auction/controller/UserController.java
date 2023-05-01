@@ -10,9 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -29,9 +30,26 @@ public class UserController {
         return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
     }
 
+    @PutMapping("/update/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+        return userService.update(id, user);
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteById(id);
+        return "User deleted";
+    }
+
     @GetMapping("get/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         return new ResponseEntity<User>(userService.getById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public List<User> getAll() {
+        return userService.getAll();
     }
 
     @GetMapping("/register")
