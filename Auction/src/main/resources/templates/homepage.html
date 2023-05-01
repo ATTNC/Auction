@@ -1,89 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <style>
-    .products-container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(5, 1fr);
-      gap: 20px;
-    }
+    <meta charset="UTF-8">
+    <title>Müzayede Online Giriş</title>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://kit.fontawesome.com/b676c3938a.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
 
-    .product-box:first-child {
-      grid-column: 1;
-      grid-row: 1;
-    }
+        .body-text {
+            display: flex;
+            font-family: 'Montserrat', sans-serif;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20%;
+        }
 
-    .products-container img {
-      max-width: 200px;
-      max-height: 150px;
-    }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 5vh;
+            background-color: #3c00a0;
+        }
 
-    .product-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      max-width: 200px;
-    }
+        .nav-links {
+            display: flex;
+            justify-content: space-around;
+            height: 5vh;
+            width: fit-content;
 
-    .product-box img {
-      max-width: 100%;
-      height: auto;
-      margin-bottom: 10px;
-    }
+        }
 
-    .product-box h3 {
-      font-size: 18px;
-      font-weight: 500;
-      line-height: 22px;
-      word-wrap: break-word;
-    }
+        .nav-links :active {
+            background-color: rgb(107, 15, 107);
+        }
 
-  </style>
+        .nav-links li {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            height: 5vh;
+
+        }
+
+        .heading {
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 22px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 3px;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 16px 18px;
+            height: 5vh;
+        }
+
+        .nav-links a.active {
+            display: flex;
+            background-color: rgb(107, 15, 107);
+            height: 5vh;
+        }
+
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .product-box:first-child {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .products-container img {
+            max-width: 200px;
+            max-height: 150px;
+        }
+
+        #products-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        .product-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            grid-template-rows: auto 1fr auto;
+            text-align: center;
+            max-width: 25vh;
+        }
+
+        .product-box img {
+            justify-self: center;
+        }
+
+        .product-box h3 {
+            margin: 0;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: -200px;
+            top: 50px;
+            height: 100%;
+            width: 200px;
+            background-color: #f7f7f7;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+    </style>
 </head>
 <body>
-<div id="products-container"></div>
+<nav>
+    <div class="heading">
+        <h4><a><i class="fa-solid fa-bars"></i> </a>Müzayede Online</h4>
+    </div>
+    <ul class="nav-links">
+        <li><a href="homepage.html">Aktif İlanlar</a></li>
+        <li><a href="homepage.html">İlan Ver</a></li>
+        <li><a href="homepage.html" class="active"><i class="fa-solid fa-house fa-xl"></i></a></li>
+        <li><a href="login.html"><i class="fa-solid fa-user fa-xl"></i></a></li>
+    </ul>
+</nav>
+<div class="sidebar">
+    <ul>
+        <li><a href="#">Sidebar Öğesi 1</a></li>
+        <li><a href="#">Sidebar Öğesi 2</a></li>
+        <li><a href="#">Sidebar Öğesi 3</a></li>
+    </ul>
+</div>
+<div>
+    <ul id="products-container">
 
+    </ul>
+</div>
 </body>
 
 <script>
-  const products = [
-    {
-      name: 'Çok iyi ekran kartı',
-      imageUrl: 'https://cdn.cimri.io/image/1200x1200/ekrankartlarfiyatlar_709097782.jpg'
-    },
-    {name: 'Aile arabası', imageUrl: 'https://cdn.motor1.com/images/mgl/qjRXZ/s1/audi-r8-v10-decennium.jpg'},
-    {
-      name: '7 kere dünya şampiyonu olan şapka',
-      imageUrl: 'https://i.ebayimg.com/images/g/FbYAAOSwWrdh~482/s-l500.jpg'
-    },
-  ];
+    const toggleSidebar = () => {
+        document.querySelector('.sidebar').classList.toggle('active');
+    }
+    document.querySelector('nav a i.fa-bars').addEventListener('click', toggleSidebar);
+    const products = [
+        {
+            name: 'Çok iyi ekran kartı',
+            imageUrl: 'https://cdn.cimri.io/image/1200x1200/ekrankartlarfiyatlar_709097782.jpg'
+        },
+        {name: 'Aile arabası', imageUrl: 'https://cdn.motor1.com/images/mgl/qjRXZ/s1/audi-r8-v10-decennium.jpg'},
+        {
+            name: '7 kere dünya şampiyonu olan şapka',
+            imageUrl: 'https://i.ebayimg.com/images/g/FbYAAOSwWrdh~482/s-l500.jpg'
+        },
+        {
+            name: 'Satılık göl',
+            imageUrl: 'https://i4.hurimg.com/i/hurriyet/75/770x0/5b8e6dac7152d827603dd438.jpg'
+        },
+        {
+            name: 'Az kullanılmış Afgan köle',
+            imageUrl: 'https://zeka-oyunlari.s3-eu-west-1.amazonaws.com/s88hac2fdf444b1f0a29f097683c1ad4d4ff2041ff17.?1486040575'
+        },
+        {
+            name: '7 kere dünya şampiyonu olan şapka',
+            imageUrl: 'https://i4.hurimg.com/i/hurriyet/75/770x0/5b8e6dac7152d827603dd438.jpg'
+        },
+        {
+            name: '7 kere dünya şampiyonu olan şapka',
+            imageUrl: 'https://i4.hurimg.com/i/hurriyet/75/770x0/5b8e6dac7152d827603dd438.jpg'
+        },
+        {
+            name: '7 kere dünya şampiyonu olan şapka',
+            imageUrl: 'https://i4.hurimg.com/i/hurriyet/75/770x0/5b8e6dac7152d827603dd438.jpg'
+        },
 
-  const productsContainer = document.querySelector('#products-container');
+    ];
 
-  products.forEach(product => {
-    // Ürün kutusunu oluşturun
-    const productBox = document.createElement('div');
-    productBox.classList.add('product-box');
+    const productsContainer = document.querySelector('#products-container');
 
-    // Ürün resmini oluşturun
-    const image = document.createElement('img');
-    image.src = product.imageUrl;
-    image.style.maxHeight = '25vh';
-    image.style.maxWidth = '25vh';
-    productBox.appendChild(image);
+    products.forEach(product => {
+        // Ürün kutusunu oluşturun
+        const productBox = document.createElement('li');
+        productBox.classList.add('product-box');
 
-    // Ürün adını oluşturun
-    const name = document.createElement('h3');
-    name.textContent = product.name;
-    productBox.appendChild(name);
+        // Ürün resmini oluşturun
+        const image = document.createElement('img');
+        image.src = product.imageUrl;
+        image.style.maxHeight = '25vh';
+        image.style.maxWidth = '25vh';
+        productBox.appendChild(image);
 
-    // Ürün kutusunu ana ürünler konteynırına ekleyin
-    productsContainer.appendChild(productBox);
-  });
+        // Ürün adını oluşturun
+        const name = document.createElement('h3');
+        name.textContent = product.name;
+        productBox.appendChild(name);
+
+        // Ürün kutusunu ana ürünler konteynırına ekleyin
+        productsContainer.appendChild(productBox);
+    });
 
 </script>
 </html>
