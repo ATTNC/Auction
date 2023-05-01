@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Service
 public class PaymentService {
@@ -54,6 +55,10 @@ public class PaymentService {
         Bid bid = bidService.getById(bidId);
         if (bid == null) {
             throw new EntityNotFoundException("Bid not found.");
+        }
+        if(!Objects.equals(auction.getHighestBidder(), user.getEmail())){
+
+            throw new IllegalStateException("You are not the winner of the auction");
         }
 
         Payment payment = new Payment();
