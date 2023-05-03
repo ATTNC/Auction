@@ -1,5 +1,6 @@
 package com.softIto.Auction.service;
 
+
 import com.softIto.Auction.model.*;
 import com.softIto.Auction.repository.AuctionRepository;
 import com.softIto.Auction.repository.CategoryRepository;
@@ -9,14 +10,21 @@ import com.softIto.Auction.request.CreateAuctionRequest;
 import com.softIto.Auction.response.AuctionSoldResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AuctionService {
@@ -119,8 +127,14 @@ public class AuctionService {
         auctionRepository.deleteById(id);
     }
 
-    public Auction updateAuction(Long id, Auction updatedAuction) {
+    public Auction updateAuction(Long id, Long userId, Auction updatedAuction) {
+
         Auction auction = getById(id);
+
+        if (!Objects.equals(auction.getUser().getId(), userId)) {
+            throw new IllegalArgumentException("Auction and user do not match");
+        }
+
         auction.setStartDate(updatedAuction.getStartDate());
         auction.setEndDate(updatedAuction.getEndDate());
         auction.setStartPrice(updatedAuction.getStartPrice());
@@ -129,6 +143,5 @@ public class AuctionService {
 
         return auctionRepository.save(auction);
     }
-
-
+    
 }

@@ -6,6 +6,7 @@ import com.softIto.Auction.model.User;
 import com.softIto.Auction.request.CreateAuctionRequest;
 import com.softIto.Auction.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +33,9 @@ public class AuctionController {
         return auctionService.createAuction(userId, request);
     }
 
-    @PutMapping("/update/{id}")
-    public Auction updateAuction(@PathVariable Long id, @RequestBody Auction auction) {
-        return auctionService.updateAuction(id, auction);
+    @PutMapping("/update/{id}/{userId}")
+    public Auction updateAuction(@PathVariable Long id, @PathVariable Long userId, @RequestBody Auction auction) {
+        return auctionService.updateAuction(id, userId, auction);
 
     }
 
@@ -59,4 +60,6 @@ public class AuctionController {
         auctionService.uploadFile(id, file);
         return "Image saved on database";
     }
+
+
 }

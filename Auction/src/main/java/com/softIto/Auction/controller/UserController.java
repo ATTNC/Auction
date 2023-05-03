@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Objects;
 
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 
