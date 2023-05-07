@@ -48,7 +48,7 @@
 </head>
 <body>
 <h1>Create Bid</h1>
-  <form th:object="${createBidRequest}" method="post" th:action="@{/bid/create/{auctionId}/{itemId}(auctionId=${auctionId},itemId=${itemId})}">
+  <form th:object="${createBidRequest}" id="createBid" method="post" th:action="@{/bid/create/{auctionId}/{itemId}(auctionId=${auctionId},itemId=${itemId})}">
 
   <input type="hidden" id="auctionIdInput" name="auctionId" th:value="${auctionId}" />
   <input type="hidden" id="itemIdInput" name="itemId" th:value="${auctionId}" />
@@ -58,7 +58,18 @@
   <textarea id="bid" name="bid" required></textarea>
   <button type="submit" >Create Bid</button>
 </form>
+
+
+
+<script>
+$(document).ready(function () {
+  $('#createBid').submit(function (event){
+    window.location.href="http://localhost:8080/bid/create/{auctionId}/{itemId}"
+  })})
+</script>
+
 </body>
+
 
 
 <!-- bidForm.html burada hata var crete bid oluştururken auction id ve item id gitmiyor -->
