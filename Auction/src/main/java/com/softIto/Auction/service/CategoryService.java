@@ -27,7 +27,7 @@ public class CategoryService {
         Category category = getById(id);
         category.setName(updatedCategory.getName());
 
-       return categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     public void deleteCategory(Long id) {
