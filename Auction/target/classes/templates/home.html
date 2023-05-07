@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html html xmlns:th="http://www.thymeleaf.org">
+<style>
+
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins",sans-serif;
+    }
+
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 8%;
+    }
+
+    nav.logo{
+        font-size: 32px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    nav ul li {
+        list-style: none;
+        display: inline-block;
+    }
+    nav ul li a {
+        display: block;
+        margin: 0 10px;
+        color: #000;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 25px;
+        position: relative;
+    }
+
+    nav ul li a::before{
+        content:'' ;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: #000;
+        width: 100%;
+        height: 2.5px;
+        transition: all 0.3s ease;
+
+    }
+
+    nav ul li a:hover::before{
+        width: 100%;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=ege">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font/awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<nav>
+    <div class="logo">Auction</div>
+    <ul>
+        <li><a href="admin-panel.html"> Admin Panel </a> </li>
+        <li><a href="auction/auctions"> Auctions </a> </li>
+        <li><a href="/"> Create Auction </a> </li>
+        <li><a href="admin-panel.html"> LogOut </a> </li>
+
+    </ul>
+</nav>
+
+<div class="flex-box">
+<div class="left">
+    <div class="big-img"></div>
+    <img src="">
+</div>
+
+</div>
+
+</body>
+</html>

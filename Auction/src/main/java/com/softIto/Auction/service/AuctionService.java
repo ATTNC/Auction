@@ -23,11 +23,14 @@ import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class AuctionService {
+
+    // End time hatası ekle!
 
     private UserRepository userRepository;
     private AuctionRepository auctionRepository;
@@ -60,14 +63,14 @@ public class AuctionService {
         categoryRepository.save(category);
 
 
-        // Create a new Item
+
         Item item = new Item();
         item.setName(request.getItemName());
         item.setDescription(request.getItemDescription());
         item.setPrice(request.getItemPrice());
         item.setUser(user);
         item.setCategory(category);
-        // Create a new Auction
+
         Auction auction = new Auction();
         auction.setCreatorName(user.getFirstName() + " " + user.getLastName());
         auction.setStartPrice(request.getItemPrice());
@@ -81,6 +84,14 @@ public class AuctionService {
         if (request.getStartDate().isBefore(localDateTime)) {
             throw new DateTimeException("Please select a valid time");
         }
+        if(request.getEndDate().isBefore(request.getStartDate())){
+            throw new DateTimeException("Please select a valid time");
+        }
+        if(!request.getEndDate().isAfter(request.getStartDate().plusMinutes(59))){
+            throw new DateTimeException("The auction interval must be at least 1 hour");
+        }
+
+
 
         if (localDateTime == request.getEndDate() && auction.getHighestBidder() != null) {
             auction.setItemByPurchased(auction.getHighestBidder());
@@ -114,6 +125,12 @@ public class AuctionService {
 
     }
 
+
+    public void getItemImage(Long id){
+        itemRepository.findById(id);
+    }
+
+
     public Auction getById(Long id) {
         return auctionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Auction not found with id: " + id));
@@ -131,6 +148,7 @@ public class AuctionService {
 
         Auction auction = getById(id);
 
+        // New
         if (!Objects.equals(auction.getUser().getId(), userId)) {
             throw new IllegalArgumentException("Auction and user do not match");
         }
@@ -143,5 +161,5 @@ public class AuctionService {
 
         return auctionRepository.save(auction);
     }
-    
+
 }

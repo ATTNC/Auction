@@ -1,6 +1,7 @@
 package com.softIto.Auction.controller;
 
 import com.softIto.Auction.model.User;
+import com.softIto.Auction.request.LoginRequest;
 import com.softIto.Auction.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,21 +10,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/user")
+@SessionAttributes("user")
 public class UserController {
+
+    // DI: Yoğun kullanılan classlar da kullanırız DI sayesinde Client tepki süresi düşürürüz.Özellikle JPA ,Log classlarında!
+    // swashbuckle  swagger aynı işlevi görüyor.
 
 
     private UserService userService;
 
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+
     }
 
     @PostMapping("/add")
@@ -54,16 +59,43 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String register() {
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
         return "register";
+    }
+
+    @PostMapping("/register")
+    public String submitRegistrationForm(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("user", user);
+        userService.saveUser(user);
+        return "redirect:/user/login";
     }
 
 
     @GetMapping("/login")
-    public String login() {
+    public String showLoginPage(Model model) {
+        model.addAttribute("user", new LoginRequest());
         return "login";
     }
 
+    @PostMapping("/login")
+    public String submitLoginPage(@ModelAttribute("loginRequest") LoginRequest loginRequest, Model model) {
+        User corretUser = userService.getByEmail(loginRequest.getEmail());
+        if (new BCryptPasswordEncoder().matches(loginRequest.getPassword(), corretUser.getPassword())) {
+            return "redirect:/user/home";
+        } else {
+            return "login";
+        }
+    }
+
+    @GetMapping("/home")
+    public String userHome() {
+        return "home";
+    }
+
+
+
+/*
     @PostMapping("/login")
     public String login(@RequestBody User user,
                         Model model, RedirectAttributes redirectAttributes) {
@@ -76,5 +108,6 @@ public class UserController {
             return "login";
         }
     }
+*/
 
 }

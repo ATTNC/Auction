@@ -1,268 +1,60 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Müzayede Online Kayıt</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../../../target/classes/templates/app.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://kit.fontawesome.com/b676c3938a.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <title>Registration Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+    h1 {
+      color: #333333;
+      text-align: center;
+    }
+    form {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px #999999;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #666666;
+    }
+    input[type="text"], input[type="password"] {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #cccccc;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: #ffffff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+
+
+  </style>
 </head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    .body-text {
-        display: flex;
-        font-family: 'Montserrat', sans-serif;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20%;
-    }
-
-    nav {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        min-height: 5vh;
-        background-color: #3c00a0;
-    }
-
-    .nav-links {
-        display: flex;
-        justify-content: space-around;
-        height: 5vh;
-        width: fit-content;
-
-    }
-
-    .nav-links :active {
-        background-color: rgb(107, 15, 107);
-    }
-
-    .nav-links li {
-        display: flex;
-        list-style: none;
-        align-items: center;
-        height: 5vh;
-
-    }
-
-    .heading {
-        color: white;
-        text-transform: uppercase;
-        letter-spacing: 4px;
-        font-size: 22px;
-    }
-
-    .nav-links a {
-        display: flex;
-        align-items: center;
-        color: white;
-        text-decoration: none;
-        letter-spacing: 3px;
-        font-weight: bold;
-        font-size: 16px;
-        padding: 16px 18px;
-        height: 5vh;
-    }
-
-    .nav-links a.active {
-        display: flex;
-        background-color: rgb(107, 15, 107);
-        height: 5vh;
-    }
-
-    .container {
-        width: 100%;
-        height: 95vh;
-        background-image: linear-gradient(rgba(0, 0, 50, 0.8), rgba(0, 0, 50, 0.8));
-    }
-
-    .form-box {
-        width: 90%;
-        max-width: 450px;
-        max-height: 600px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #fff;
-        padding: 50px 60px 70px;
-        text-align: center;
-    }
-
-    .form-box h1 {
-        font-size: 30px;
-        margin-bottom: 60px;
-        color: #3c00a0;
-        position: relative;
-    }
-
-    .form-box h1::after {
-        content: '';
-        width: 30px;
-        height: 4px;
-        border-radius: 3px;
-        background: #3c00a0;
-        position: absolute;
-        bottom: -12px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .input-field {
-        background: #eaeaea;
-        margin: 15px 0;
-        border-radius: 3px;
-        display: flex;
-        align-items: center;
-        max-height: 65px;
-        transition: max-height 0.5s;
-        overflow: hidden;
-    }
-
-    input {
-        width: 300px;
-        background: transparent;
-        border: 0;
-        outline: 0;
-        padding: 18px 15px;
-    }
-
-    .input-field i {
-
-        margin-left: 15px;
-        color: #999;
-    }
-
-    form p {
-        text-align: left;
-        font-size: 13px;
-    }
-
-    form p a {
-        text-decoration: none;
-        color: #3c00a0;
-    }
-
-    .btn-field {
-        justify-content: center;
-    }
-
-    .btn-field button {
-        background: #3c00a0;
-        color: #fff;
-        height: 40px;
-        width: 100px;
-        border-radius: 20px;
-        border: 0;
-        outline: 0;
-        cursor: pointer;
-        transition: background 1s;
-    }
-
-</style>
 <body>
-<nav>
-    <div class="heading">
-        <h4>Müzayede Online</h4>
-    </div>
-    <ul class="nav-links">
-        <li><a href="register.html" class="active"><i class="fa-regular fa-user fa-xl"></i></a></li>
-    </ul>
-</nav>
-<div class="container">
-    <div class="form-box" id="formBox">
-        <h1 id="title">Kayıt Ol</h1>
-        <form id="registerForm" class="registerForm">
-            <div class="input-group" id="input">
-                <div class="input-field" id="name">
-                    <i class="fa-solid fa-user"></i>
-                    <label for="name">
-                        <input type="text" placeholder="Adı">
-                    </label>
-                </div>
-                <div class="input-field" id="surname">
-                    <i class="fa-solid fa-user"></i>
-                    <label for="surname">
-                        <input type="text" placeholder="Soyadı">
-                    </label>
-                </div>
-                <div class="input-field" id="email">
-                    <i class="fa-solid fa-envelope"></i>
-                    <label for="email">
-                        <input type="email" placeholder="E-Posta">
-                    </label>
-                </div>
-                <div class="input-field" id="password">
-                    <i class="fa-solid fa-lock"></i>
-                    <label for="password">
-                        <input type="password" placeholder="Şifre">
-                    </label>
-                </div>
-                <div class="input-field" id="passwordAgain">
-                    <i class="fa-solid fa-lock"></i>
-                    <label for="passwordAgain">
-                        <input type="password" placeholder="Şifre Tekrar">
-                    </label>
-                </div>
-            </div>
-            <div class="btn-field" style="padding-bottom: 0px">
-                <button type="submit" class="btn btn-primary">Kayıt Ol</button>
-            </div>
-            <small>Zeten üye misin?</small><br>
-            <a href="http://localhost:8080/user/login">Giriş Yap</a>
-        </form>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function () {
-        $('#registerForm').submit(function (event) {
-            event.preventDefault();
-            const username = $('#name input').val();
-            const surname = $('#surname input').val();
-            const email = $('#email input').val();
-            const password = $('#password input').val();
-            const passwordConfirm = $('#passwordAgain input').val();
-
-            // Check if passwords match
-            if (password !== passwordConfirm) {
-                alert("Şifreler eşleşmiyor.");
-                return;
-            }
-
-            // Register user
-            const user = {
-                "firstName": username.toString(),
-                "lastName": surname.toString(),
-                "balance": 0,
-                "email": email.toString(),
-                "password": password.toString()
-            };
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "http://localhost:8080/user/add",
-                data: JSON.stringify(user),
-                dataType: 'json',
-                cache: false,
-                timeout: 600000,
-                success: function () {
-                    window.location.href = "http://localhost:8080/user/login"; // route
-                }
-            })
-
-        });
-    });
-</script>
+<h1>Registration Page</h1>
+<form th:action="@{/user/register}" th:object="${user}" method="post">
+  <label>First Name: <input type="text" th:field="*{firstName}" /></label><br/>
+  <label>Last Name: <input type="text" th:field="*{lastName}" /></label><br/>
+  <label>Balance: <input type="text" th:field="*{balance}" /></label><br/>
+  <label>Email: <input type="text" th:field="*{email}" /></label><br/>
+  <label>Password: <input type="password" th:field="*{password}" /></label><br/>
+  <input type="submit" value="Register" />
+</form>
 </body>
 </html>

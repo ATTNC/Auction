@@ -1,14 +1,19 @@
 package com.softIto.Auction.service;
 
+import com.softIto.Auction.controller.UserController;
+import com.softIto.Auction.enums.Role;
 import com.softIto.Auction.model.User;
 import com.softIto.Auction.repository.AuctionRepository;
 import com.softIto.Auction.repository.ItemRepository;
 import com.softIto.Auction.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,6 +22,7 @@ public class UserService {
     private UserRepository userRepository;
     private AuctionRepository auctionRepository;
     private ItemRepository itemRepository;
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 
     @Autowired
@@ -27,7 +33,11 @@ public class UserService {
     }
 
     public User saveUser(User user) {
+        user.setRole(Role.USER);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        LocalDateTime currentRequest = LocalDateTime.now();
+
+        logger.info("User added {} ", user.getEmail() + " " + currentRequest);
         return userRepository.save(user);
     }
 
@@ -39,6 +49,16 @@ public class UserService {
         } else {
             return null;
         }
+    }
+
+    public boolean isEmailValid(User user) {
+
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new RuntimeException("Email already using!");
+
+        }
+        return true;
+
     }
 
     public User getById(Long id) {

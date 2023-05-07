@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Auctions</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Auction Creator Name:</th>
+        <th>Auction Start Price:</th>
+        <th>Auction Start Date:</th>
+        <th>Auction End Date:</th>
+        <th>Highest Bidder:</th>
+        <th>Current Bid:</th>
+        <th>Instantly Buy:</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="auction : ${auctions}">
+        <td th:text="${auction.creatorName}"></td>
+        <td th:text="${auction.startPrice}"></td>
+        <td th:text="${auction.startDate}"></td>
+        <td th:text="${auction.endDate}"></td>
+        <td th:text="${auction.highestBidder}"></td>
+        <td th:text="${auction.currentBid}"></td>
+        <td th:text="${auction.instantlyBuy}"></td>
+        <td>
+            <a th:href="@{/bid/bidForm(auctionId=${auction.id}, itemId=${auction.item.id})}">
+                <button>Create Bid</button>
+            </a>
+        </td>
+    </tr>
+
+
+    </tbody>
+
+
+
+</table>
+
+
+
+
+</body>
+</html>
